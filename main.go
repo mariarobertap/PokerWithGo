@@ -3,12 +3,35 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+    "time"
 
 )
 
 func main(){
 
-    menu()	
+    rand.Seed(time.Now().UnixNano())
+
+	deck := newBaralho()
+
+	//deck.baralhoLen()
+	//player1 := createHand(deck.generateHand(), 500)
+	//player1.print()
+	//player1.checkHandStatus()
+	///deck.baralhoLen()
+	table := createTable(deck.generateTableCards(3), 100)
+	table.print()
+	//cartas := table.getCards()
+	cartass:= deck.generateTableCards(1)
+	table.addCard(cartass[0])
+	table.print()
+	cartass = deck.generateTableCards(1)
+	table.addCard(cartass[0])
+	table.print()
+	deck.baralhoLen()
+	//print(len(cartas))
+	
+	
 }
 
 func menu(){
@@ -21,6 +44,7 @@ func menu(){
 		fmt.Println("1- Criar baralho")
 		fmt.Println("2- Embaralhar")
 		fmt.Println("3- Mostrar baralho")
+		fmt.Println("4- Jogar")
 		fmt.Scanln(&opcao)
 		if opcao == 1{
 			deck = newBaralho()
