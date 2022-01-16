@@ -15,20 +15,24 @@ func main(){
 	deck := newBaralho()
 
 	//deck.baralhoLen()
-	//player1 := createHand(deck.generateHand(), 500)
-	//player1.print()
+	player1 := createHand(deck.generateHand(), 500)
+	player1.print()
+	//player2 := createHand(deck.generateHand(), 500)
+	//player2.print()
 	//player1.checkHandStatus()
 	///deck.baralhoLen()
 	table := createTable(deck.generateTableCards(3), 100)
-	table.print()
+	//table.print()
 	//cartas := table.getCards()
 	cartass:= deck.generateTableCards(1)
 	table.addCard(cartass[0])
-	table.print()
+	//table.print()
 	cartass = deck.generateTableCards(1)
 	table.addCard(cartass[0])
 	table.print()
 	deck.baralhoLen()
+
+	player1.checkHandWithTableStatus(table.getCards())
 	//print(len(cartas))
 	
 	

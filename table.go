@@ -28,6 +28,7 @@ func (t *table) addCard(cartas carta){
 }
 
 func (t *table) print(){
+	fmt.Println("Table")
 	fmt.Println(t)
 }
 
