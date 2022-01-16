@@ -37,7 +37,8 @@ func newBaralho() (*baralho) {
 
 func  (b *baralho) baralhoLen() {
 
-	print(len(b.carta))
+	fmt.Println("LEN:",len(b.carta))
+	
 
 	
 }
