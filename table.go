@@ -28,13 +28,19 @@ func (t *table) addCard(cartas carta){
 }
 
 func (t *table) print(){
-	fmt.Println("Table")
-	fmt.Println(t)
+	fmt.Println("--------------Table---------------")
+	fmt.Println("CARDS: [", t.carta, " ]")
+	fmt.Println("POT AMOUNT: [", t.pot, " ]")
+	fmt.Println("-----------------------------------")
 }
 
 func (t *table) getCards() ([]carta){
 	return t.carta
 }
 
+func (t *table) setPot(amount int) {
+
+	t.pot += amount 
+}
 
 
