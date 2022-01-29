@@ -59,9 +59,9 @@ func (h *hand)checkHandStatus(){
 
 func (h *hand)checkHandWithTableStatus(cartasMesa []carta){
 
+	var playerHand []carta
 
-	var cartinhas []cardPairs
-	pair := 0
+	
 	if (len(h.carta) < 0){
 		fmt.Println("Seems like you dont have a hand yet")
 		return	
@@ -71,43 +71,54 @@ func (h *hand)checkHandWithTableStatus(cartasMesa []carta){
 		return	
 	}
 
-	for i := 0; i < len(h.carta); i++{
-		cartasMesa = append(cartasMesa, h.carta[i])
-	}
+
+	playerHand = h.appendWithTableCards(cartasMesa)
+
 	
 
-	for i := 0; i < len(cartasMesa); i++{
-		pair= 0
-		for j := i+1; j < len(cartasMesa); j++{
+	if(isFlush(playerHand) == true){
+		return
+	}
+
+    listOfPairs := generateListOfPairs(playerHand)
+
+
+	myPairs := handPairs{listOfPairs}
+
+	if(len(myPairs.carta) > 0){                                                            
+
+		if(IsTreeOfaKind(myPairs) == false){
+
+			if(IsPair(myPairs) == false){
+
+				isHighCard(myPairs)
+			}
+		}	
+	}
+}
+
+func generateListOfPairs(playerHand []carta) ([]cardPairs){
+
+	var listPairs []cardPairs
+	var amountPair int
+
+	for i := 0; i < len(playerHand); i++{
+		amountPair = 0
+
+		for j := i+1; j < len(playerHand); j++{
 			
-				if(cartasMesa[i].cartaa == cartasMesa[j].cartaa){
-					pair += 1
+				if(playerHand[i].cartaa == playerHand[j].cartaa){
+					amountPair += 1
 				}
 	
 		}
 
-		
-			testando := cardPairs{cartasMesa[i].cartaa, pair}
-		    cartinhas = append(cartinhas, testando)
-		
-	}
-
-
-	myPairs := handPairs{cartinhas}
-	fmt.Println(myPairs)
-	if(len(myPairs.carta) > 0){
-		if(IsTreeOfaKind(myPairs) == false){
-			if(IsPair(myPairs) == false){
-				isHighCard(myPairs)
-			}
-		}
-	
+		pair := cardPairs{playerHand[i].cartaa, amountPair}
+		listPairs = append(listPairs, pair)
 		
 	}
-	
 
-
-
+	return listPairs
 
 }
 
@@ -132,12 +143,6 @@ func IsTreeOfaKind(deck handPairs) (bool) {
 		}
 	}
 
-	if(tree == 3){
-		fmt.Println("You have tree of a kind")
-		return true
-	}
-
-	
 	return false
 }
 
@@ -186,14 +191,57 @@ func isHighCard(deck handPairs) (bool) {
 	return false
 }
 
-func (h hand) print() (hand){
+func isFlush(deck []carta) (bool) {
+	var amount int  
 
-	fmt.Println("Player")
+	for i := 0; i < len(deck); i++{
+		amount = 1
 
-	fmt.Println(h)
+		for j := i+1; j < len(deck); j++{
+			if(deck[i].nipe == deck[j].nipe){
+				amount += 1		
+			}
+		}
 
-	return h
+		if(amount == 5){
+			fmt.Println("You have a flush")
+			return true
+		}
+	}
+
+	return false
 }
+
+func (h hand) print(){
+
+
+
+	fmt.Println("--------------Player---------------")
+	fmt.Println("CARDS: [", h.carta, " ]")
+	fmt.Println("CHIPS: [", h.chips, " ]")
+	fmt.Println("-----------------------------------")
+
+}
+
+func (h hand) printChips(){
+
+	fmt.Println("--------------Player---------------")
+	fmt.Println("CHIPS: [", h.chips, " ]")
+	fmt.Println("-----------------------------------")
+
+}
+
+
+func (h hand)appendWithTableCards(cardsAux []carta)  ([]carta){
+	
+	for i := 0; i < len(h.carta); i++{
+		cardsAux = append(cardsAux, h.carta[i])
+	}
+
+	return cardsAux
+}
+
+
 
 /*
 func (h hand) foldHand(){
@@ -204,9 +252,12 @@ func (h hand) bet(betAmount){
 
 }
 
-func (h hand) call(){
+*/
+func (h *hand) call(amount int){
+
+	h.chips -= amount
 
 }
-*/
+
 
 
