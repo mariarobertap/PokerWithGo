@@ -86,7 +86,9 @@ func playPoker(){
 	deck := newBaralho()			
 
 	//deck.baralhoLen()
-	player1 := createHand(deck.generateHand(), 500)
+	//player1 := createHand(deck.generateHand(), 500)
+	player1 := createPlayer(deck.generateHand(), 500, "Maria")
+	//player1.getPlayerName()
 	player1.print()
 	//player2 := createHand(deck.generateHand(), 500)
 	//player2.print()
@@ -105,8 +107,8 @@ func playPoker(){
 
 	player1.checkHandWithTableStatus(table.getCards())
 
-	player1.call(100)
-	player1.print()
+	//player1.call(100)
+	//player1.print()
 	//print(len(cartas))
 }
 
@@ -115,15 +117,17 @@ func playPokerTest() {
 	deck := newBaralho()			
 
 	
-	player1 := createHand(deck.generateHand(), 500)
-	player2 := createHand(deck.generateHand(), 500)
+	player1 := createPlayer(deck.generateHand(), 500, "Maria")
+	player2 := createPlayer(deck.generateHand(), 500, "Bot")
 	table := createTable(deck.generateTableCards(3), 0)
 
 	systemcls()
 
 	for i:= 0; i<3; i++{
+		
 		player1.printChips()
 		if(callOrBet(10, player1) == 0){
+			systemcls()
 			player2.call(10)
 			table.setPot(20)
 			fmt.Println("BOT JUST CALLED")
@@ -136,6 +140,8 @@ func playPokerTest() {
 		
 			table.print()
 		}
+		
+		
 	}
 	player1.printChips()
 
@@ -145,7 +151,7 @@ func playPokerTest() {
 	table.print()
 }
 
-func callOrBet(amount int, playerHand *hand) (int){
+func callOrBet(amount int, playerHand *player) (int){
 
 	var opcao int
 
