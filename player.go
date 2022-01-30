@@ -4,6 +4,18 @@ import (
 	"fmt"
 )
 
+
+type player struct {
+	playerHand hand
+	name string
+}
+
+type hand struct {
+	carta []carta
+	chips int
+}
+
+
 type handPairs struct {
 	carta []cardPairs
 }
@@ -13,10 +25,7 @@ type cardPairs struct {
 	amount int
 }
 
-type hand struct {
-	carta []carta
-	chips int
-}
+
 
 func createHand(cartas []carta, chips int) (*hand){
 
@@ -32,37 +41,33 @@ func createHand(cartas []carta, chips int) (*hand){
 	return &hand
 }
 
-func (h *hand)checkHandStatus(){
+func createPlayer(cartas []carta, chips int, name string) (*player){
 
-	if (len(h.carta) < 0){
-		print("Seems like you dont have a hand yet")
-		return	
+	var playerCards []carta
+
+	for i:= 0; i<len(cartas); i++{
+		playerCards = append(playerCards, cartas[i])
 	}
 
-	if(h.carta[0].cartaa == h.carta[1].cartaa){
-		if(h.carta[0].cartaa == "A"){
-			print("You have the best pair in poker")
-		}
-		print("You have a pair!!")
-	}
+	hand := hand{playerCards, chips}
 
-	for i := 0; i < 2; i++{
-		if(h.carta[i].cartaa == "A" || 
-		   h.carta[i].cartaa == "J" ||
-		   h.carta[i].cartaa == "Q" ||
-		   h.carta[i].cartaa == "K"){
-			print("You have a high card!!")
-		}
-	}	
+    player := player{hand, name}
+
+	return &player
 }
 
 
-func (h *hand)checkHandWithTableStatus(cartasMesa []carta){
+func (p player) getPlayerName(){
+	fmt.Println(p.name)
+}
+
+
+func (p *player) checkHandWithTableStatus(cartasMesa []carta){
 
 	var playerHand []carta
 
 	
-	if (len(h.carta) < 0){
+	if (len(p.playerHand.carta) < 0){
 		fmt.Println("Seems like you dont have a hand yet")
 		return	
 	}
@@ -72,7 +77,7 @@ func (h *hand)checkHandWithTableStatus(cartasMesa []carta){
 	}
 
 
-	playerHand = h.appendWithTableCards(cartasMesa)
+	playerHand = p.appendWithTableCards(cartasMesa)
 
 	
 
@@ -212,30 +217,31 @@ func isFlush(deck []carta) (bool) {
 	return false
 }
 
-func (h hand) print(){
+func (p player) print(){
 
 
 
 	fmt.Println("--------------Player---------------")
-	fmt.Println("CARDS: [", h.carta, " ]")
-	fmt.Println("CHIPS: [", h.chips, " ]")
+	fmt.Println("PLAYER: [", p.name, " ]")
+	fmt.Println("CHIPS: [", p.playerHand.chips, " ]")
 	fmt.Println("-----------------------------------")
 
 }
 
-func (h hand) printChips(){
+func (p player) printChips(){
 
-	fmt.Println("--------------Player---------------")
-	fmt.Println("CHIPS: [", h.chips, " ]")
+	fmt.Println("-----------------------------------")
+	fmt.Println("PLAYER: [", p.name, " ]")
+	fmt.Println("CHIPS: [", p.playerHand.chips, " ]")
 	fmt.Println("-----------------------------------")
 
 }
 
 
-func (h hand)appendWithTableCards(cardsAux []carta)  ([]carta){
+func (p player) appendWithTableCards(cardsAux []carta)  ([]carta){
 	
-	for i := 0; i < len(h.carta); i++{
-		cardsAux = append(cardsAux, h.carta[i])
+	for i := 0; i < len(p.playerHand.carta); i++{
+		cardsAux = append(cardsAux, p.playerHand.carta[i])
 	}
 
 	return cardsAux
@@ -253,9 +259,11 @@ func (h hand) bet(betAmount){
 }
 
 */
-func (h *hand) call(amount int){
+func (p *player) call(amount int){
 
-	h.chips -= amount
+	p.playerHand.chips -= amount
+	buffer := fmt.Sprintf("%s Call [%d] chips", p.name, amount)
+    fmt.Println(buffer)
 
 }
 
